@@ -1,0 +1,9 @@
+.form {
+    width: 700px;
+    background: #000000;
+    background-size: 40px 60px;
+}
+
+.bg-custom-color {
+    background-color: #4a5568;
+  }
