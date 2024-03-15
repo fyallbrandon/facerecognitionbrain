@@ -103,7 +103,7 @@ calculateFaceLocation = (data) => {
 
   onButtonSubmit = () => {
     this.setState({imageUrl: this.state.input});
-    fetch('https://facerecognitionbrain-1820474e7d0c.herokuapp.com/imageurl', {
+    fetch('https://vast-savannah-05715-00cda8775134.herokuapp.com/imageurl', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -116,7 +116,7 @@ calculateFaceLocation = (data) => {
     .then(response => response.json())
      .then(response => {
       if (response) {
-        fetch('https://facerecognitionbrain-1820474e7d0c.herokuapp.com/image', {
+        fetch('https://vast-savannah-05715-00cda8775134.herokuapp.com/image', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
