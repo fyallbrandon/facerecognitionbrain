@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './App.css';
 import ParticlesBg from 'particles-bg'
 import Navigation from './components/Navigation/Navigation';
 import Signin from './components/Signin/Signin';
@@ -7,7 +8,6 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
-import './App.css';
 
 const returnClarifai = (imageUrl) => {
   // Your PAT (Personal Access Token) can be found in the portal under Authentification
@@ -101,39 +101,47 @@ calculateFaceLocation = (data) => {
     this.setState({input: event.target.value});
   }
 
-  onButtonSubmit = () => {
+  onSubmit = () => {
     this.setState({imageUrl: this.state.input});
-    fetch('https://vast-savannah-05715-00cda8775134.herokuapp.com/imageurl', {
+    fetch('http://localhost:4000/imageurl', {
         method: 'post',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
-        input: this.state.input
-      })
-    })
-  const requestOptions = returnClarifai(this.state.input);
-
-    fetch("https://api.clarifai.com/v2/models/" + 'face-detection' + "/outputs", requestOptions)
-    .then(response => response.json())
-     .then(response => {
-      if (response) {
-        fetch('https://vast-savannah-05715-00cda8775134.herokuapp.com/image', {
-            method: 'put',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                id: this.state.user.id
-            })
+          input: this.state.input
         })
-          .then(response => response.json())
-          .then(count => {
-              this.setState(Object.assign(this.state.user, {entries: count}))
-          })
-          .catch(console.log)
+    })
+    .then(response => response.json())
+    
+    .then(response => {
+        const requestOptions = returnClarifai(this.state.input);
 
-        }
-        this.displayFaceBox(this.calculateFaceLocation(response))
-      })
-     .catch(err => console.log(err));
-  }
+        fetch("https://api.clarifai.com/v2/models/" + 'face-detection' + "/outputs", requestOptions)
+        .then(response => response.json())
+        .then(response => {
+            if (response) {
+                fetch('http://localhost:4000/image', {
+                    method: 'put',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: this.state.user.id
+                    })
+                })
+                .then(response => response.json())
+                .then(count => {
+                    this.setState(Object.assign(this.state.user, {entries: count}))
+                })
+                .catch(console.log)
+            }
+            this.displayFaceBox(this.calculateFaceLocation(response))
+        })
+        .catch(err => console.log(err));
+    })
+    .catch(err => console.log(err));
+}
 
   onRouteChange = (route) => {
     if (route === 'signout') {
@@ -148,9 +156,7 @@ calculateFaceLocation = (data) => {
     const { isSignedIn, imageUrl, route, box } = this.state;
     return (
       <div className="App">
-        <ParticlesBg type="circle" bg={true} 
-        // params={particlesOptions}
-        />
+        {/* <ParticlesBg type="circle" bg={true} /> */}
         <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
         { route === 'home' 
           ? <div>

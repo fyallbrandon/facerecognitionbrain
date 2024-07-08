@@ -18,21 +18,24 @@ class Signin extends React.Component {
     }
 
     onSubmitSignIn = () => {
-        fetch('https://vast-savannah-05715-00cda8775134.herokuapp.com/signin', {
+        fetch('http://localhost:4000/signin', {
             method: 'post',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
-                email: this.state.signInEmail,
-                password: this.state.signInPassword
+                email: this.state.email,
+                password: this.state.password,
+                name: this.state.name
             })
         })
-            .then(response => response.json())
-            .then(user => {
-                if (user.id) {
-                    this.props.loadUser(user);
-                    this.props.onRouteChange('home');
-                }
-            })
+        .then(response => response.json())
+        .then(user => {
+            if (user.id) {
+                this.props.loadUser(user)
+                this.props.onRouteChange('home')
+            }
+        })
     }
 
     render() {
