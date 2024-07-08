@@ -11,11 +11,11 @@ import Rank from './components/Rank/Rank';
 
 const returnClarifai = (imageUrl) => {
   // Your PAT (Personal Access Token) can be found in the portal under Authentification
-  const PAT = '0c29d288e4aa4ef69dd103c7f7254d6b';
+  const PAT = '';
   // Specify the correct user_id/app_id pairings
   // Since you're making inferences outside your app's scope
-  const USER_ID = 'branman37';    
-  const APP_ID = 'test';
+  const USER_ID = '';    
+  const APP_ID = '';
   // Change these to whatever model and image input you want to use
   const MODEL_ID = 'face-detection';
   const IMAGE_URL = imageUrl;
